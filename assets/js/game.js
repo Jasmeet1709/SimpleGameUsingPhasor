@@ -92,7 +92,45 @@ var Game = {
 
       snake.push(lastCell);
       firstCell = lastCell;
-  }
+    }
+
+    if(addNew){
+      snake.unshift(game.add.sprite(oldLastCellx,oldLastCelly,'snake'));
+      addNew = false;
+    }
+
+    this.appleCollision();
+
+    this.selfCollision();
+
+    this.wallCollision();
+  },
+
+  appleCollision: function(){
+
+    for(var i=0;i<snake.length;i++){
+      if(snake[i].x == apple.x && snake[i].y == apple.y){
+        addNew = true;
+        apple.destroy();
+        this.generateApple();
+        score++;
+        scoreTextValue.text = score.toString();
+      }
+    }
+  },
+
+  selfCollision: function(){
+    for(var i = 0; i < snake.length - 1; i++){
+      if(snake[snake.length-1].x ==snake[i].x && snake[snake.length-1].y == snake[i].y){
+        game.state.start('Game_Over');
+      }
+    }
+  },
+
+  wallCollision: function(){
+    if(snake[snake.length-1].x >= 600 || snake[snake.length-1].x < 0 || snake[snake.length-1].y >= 450 || snake[snake.length-1].y < 0){
+        game.state.start('Game_Over');
+    }
   },
 
   generateApple: function(){
