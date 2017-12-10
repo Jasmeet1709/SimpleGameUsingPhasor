@@ -45,6 +45,54 @@ var Game = {
 
   update: function(){
 
+    if(cursors.right.isDown && direction!='left'){
+      new_direction='right';
+    }else if(cursors.left.isDown && direction!='right'){
+      new_direction='left';
+    }else if(cursors.up.isDown && direction!='down'){
+      new_direction='up';
+    }else if(cursors.down.isDown && direction!='up'){
+      new_direction='down';
+    }
+
+    speed = Math.min(10,Math.floor(score/5));
+    speedTextValue.text = '' + speed;
+
+    updateDelay++;
+
+    if(updateDelay % (10-speed) == 0){
+
+      var firstCell = snake[snake.length - 1],
+          lastCell = snake.shift(),
+          oldLastCellx = lastCell.x,
+          oldLastCelly = lastCell.y;
+
+
+      if(new_direction){
+        direction = new_direction;
+        new_direction = null;
+      }
+
+      if(direction == 'right'){
+        lastCell.x = firstCell.x + 15;
+        lastCell.y = firstCell.y;
+      }
+      else if(direction == 'left'){
+          lastCell.x = firstCell.x - 15;
+          lastCell.y = firstCell.y;
+      }
+      else if(direction == 'up'){
+          lastCell.x = firstCell.x;
+          lastCell.y = firstCell.y - 15;
+      }
+      else if(direction == 'down'){
+          lastCell.x = firstCell.x;
+          lastCell.y = firstCell.y + 15;
+      }
+
+      snake.push(lastCell);
+      firstCell = lastCell;
+  }
   },
 
   generateApple: function(){
