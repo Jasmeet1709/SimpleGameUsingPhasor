@@ -4,6 +4,7 @@ var cursors;
 var stars;
 var score = 0;
 var scoreText;
+var count = 0;
 var Menu = {
 
   preload: function(){
@@ -53,6 +54,7 @@ var Menu = {
         var star = stars.create(i*70,0,'star');
         star.body.gravity.y = 6;
         star.body.bounce.y = 0.7 + Math.random() * 0.2;
+        count++;
     }
 
     //score
@@ -86,9 +88,14 @@ var Menu = {
     if(cursors.up.isDown && player.body.touching.down && hitPlatform){
         player.body.velocity.y = -350;
     }
+
+    if(count == 0){
+        game.state.start('Game_Over');
+    }
   },
   collectStar: function(player,star){
     star.kill();
+    count--;
     score += 10;
     scoreText.text = 'Score: ' + score;
   }
