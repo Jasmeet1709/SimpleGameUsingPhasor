@@ -41,5 +41,7 @@ var Menu = {
 
   },
 
-  
+  update: function(){
+    var hitPlatform = game.physics.arcade.collide(player,platforms);
+  }
 };
