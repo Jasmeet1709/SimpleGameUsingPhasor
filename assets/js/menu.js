@@ -1,6 +1,7 @@
 var platforms;
 var player;
 var cursors;
+var stars;
 var Menu = {
 
   preload: function(){
@@ -42,10 +43,24 @@ var Menu = {
 
     cursors = game.input.keyboard.createCursorKeys();
 
+    //stars group
+    stars = game.add.group();
+    stars.enableBody = true;
+
+    for(var i=0;i<12;i++){
+        var star = stars.create(i*70,0,'star');
+        star.body.gravity.y = 6;
+        star.body.bounce.y = 0.7 + Math.random() * 0.2;
+    }
+
   },
 
   update: function(){
     var hitPlatform = game.physics.arcade.collide(player,platforms);
+    game.physics.arcade.collide(stars,platforms);
+    game.physics.arcade.overlap(player, stars, this.collectStar, null, this);
+
+
 
     player.body.velocity.x = 0;
 
@@ -66,5 +81,8 @@ var Menu = {
     if(cursors.up.isDown && player.body.touching.down && hitPlatform){
         player.body.velocity.y = -350;
     }
+  },
+  collectStar: function(player,star){
+    star.kill();
   }
 };
