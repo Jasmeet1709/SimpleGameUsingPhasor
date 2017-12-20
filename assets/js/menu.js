@@ -2,6 +2,8 @@ var platforms;
 var player;
 var cursors;
 var stars;
+var score = 0;
+var scoreText;
 var Menu = {
 
   preload: function(){
@@ -53,6 +55,9 @@ var Menu = {
         star.body.bounce.y = 0.7 + Math.random() * 0.2;
     }
 
+    //score
+    scoreText = game.add.text(16,16,'score: 0',{fontSize:'32px',fill:'#000'});
+
   },
 
   update: function(){
@@ -84,5 +89,7 @@ var Menu = {
   },
   collectStar: function(player,star){
     star.kill();
+    score += 10;
+    scoreText.text = 'Score: ' + score;
   }
 };
